@@ -48,7 +48,7 @@ public class RestControllerTest {
     @Test
     public void testCreateMessage() throws Exception {
         
-        this.mockMvc.perform(post("/message/create")
+        this.mockMvc.perform(post("/message/create/")
         		.param("message", "Message")
         		.param("from", "Natalia")
         		.param("to", "Pawel"))
@@ -58,7 +58,7 @@ public class RestControllerTest {
     @Test
     public void testCreateMessageMissingParams() throws Exception {
         
-        this.mockMvc.perform(post("/message/create")
+        this.mockMvc.perform(post("/message/create/")
         		.param("message", "Message")
         		.param("from", "Natalia"))
                 .andExpect(status().isBadRequest());
@@ -67,7 +67,7 @@ public class RestControllerTest {
     @Test
     public void testDeleteNotExistingMessage() throws Exception {
         
-        this.mockMvc.perform(delete("/messages/delete/1"))
+        this.mockMvc.perform(delete("/messages/delete/1/"))
                 .andExpect(status().isNotFound());
     }
 }
