@@ -7,7 +7,7 @@ This short document describes the installation procedure and available commands 
 * Hibernate ORM
 * SQLite
 * Embedded Apache Tomcat
-
+* JUnit
 
 ## Running
 
@@ -18,7 +18,7 @@ This short document describes the installation procedure and available commands 
 
 ### Running compiled and packaged application
 
-* Start the application including simplified Tomcat server with ```java -jar my-app-1.0-SNAPSHOT.jar```
+* Start the application including simplified Tomcat server with ```java -jar message-server-1.0-SNAPSHOT.jar```
 * Execute commands specifieds below
 
 ## Building
@@ -37,15 +37,15 @@ This short document describes the installation procedure and available commands 
 
 1) To create a new message from a sender to a recipient, max message length is 140 characters, sender and recipient max 40 chars
 
-```curl -X POST http://localhost:8080/create/message -d "message={value}" -d "from={value}" -d "to={value}"```
+```curl -X POST http://localhost:8080/message/create/ -d "message={value}" -d "from={value}" -d "to={value}"```
 
 2) To see and mark all messages as read
 
-```curl -X PUT http://localhost:8080/create/messages```
+```curl -X PUT http://localhost:8080/messages/```
 
 3) To see and mark unread messages as read
 
-```curl -X PUT http://localhost:8080/create/messages/unread```
+```curl -X PUT http://localhost:8080/messages/unread```
 
 4) To fetch messages in specific range, in time order, where start and end and int indexes
 
