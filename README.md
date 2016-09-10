@@ -30,7 +30,7 @@ This short document describes the installation procedure and available commands 
 
 ### Building
 
-* Clone GIT repository ```git clone git@github.com:natwie/RestMessageServer.git```
+* Clone GIT repository ```git clone git@github.com:natwie/JavaRestMessageServer.git```
 * Download dependencies and create executable jar ```mvn clean package```
 
 ## HTTP requests supported examples
