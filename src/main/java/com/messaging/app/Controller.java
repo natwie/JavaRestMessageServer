@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import entities.Message;
 
 /**
- * @author nupek
+ * @author natwie
  *
  */
 @RestController
