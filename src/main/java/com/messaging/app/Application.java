@@ -10,7 +10,7 @@ public class Application {
     public static void main(String[] args) {
     	ApplicationContext ctx = SpringApplication.run(Application.class, args);
     	
-    	// Class used for persistance
+    	// Class used for persistence
     	DatabaseCommunicator dc = ctx.getBean(DatabaseCommunicator.class);
     	dc.init();
     	

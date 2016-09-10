@@ -170,6 +170,18 @@ public class DatabaseCommunicator
 		return messages;
 	}
 
+	public int deleteMessagesInRange(int start, int end) {
+		session = sessionFactory.openSession();
+		tx = session.beginTransaction();
+		int result = session.createQuery("delete from Message where id >=" + start + " and id <=" + end +"").executeUpdate();
+		session.flush();
+		tx.commit();
+		session.close();
+		return result;
+
+
+	}
+	
 	public int deleteMessage(int id) {
 		session = sessionFactory.openSession();
 		tx = session.beginTransaction();
@@ -182,15 +194,13 @@ public class DatabaseCommunicator
 
 	}
 
-	public String deleteAllMessages() {
+	public void deleteAllMessages() {
 		session = sessionFactory.openSession();
 		tx = session.beginTransaction();
 		session.createQuery("delete from Message").executeUpdate();
 		session.flush();
 		tx.commit();
 		session.close();
-		return "All messages deleted";
-
 	}
 
 }

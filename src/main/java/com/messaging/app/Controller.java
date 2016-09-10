@@ -12,23 +12,29 @@ import org.springframework.web.bind.annotation.RestController;
 
 import entities.Message;
 
+/**
+ * @author nupek
+ *
+ */
 @RestController
 public class Controller {
 
-	DatabaseCommunicator dC;
+	DatabaseCommunicator databaseCommunicator;
 
 	public void setDatabaseCommunicator(DatabaseCommunicator value) {
-		this.dC = value;
+		this.databaseCommunicator = value;
 	}
-
+	
 	/**
+	 * Creates a new message with basic validation
+	 * 	 
 	 * @param message
 	 * @param from
 	 * @param to
 	 * @param response
-	 * @return
+	 * @return Message if successful, BAD_REQUST response if failed
 	 */
-	@RequestMapping(value="/message/create", method=RequestMethod.POST)
+	@RequestMapping(value="/api/v1.0/message/create/", method=RequestMethod.POST)
 	public Message createMessage(@RequestParam(value="message") String message,
 			@RequestParam(value="from") String from,
 			@RequestParam(value="to") String to,
@@ -40,7 +46,7 @@ public class Controller {
 		}
 		else {
 			Message newMessage = new Message(message, from, to);
-			dC.saveMessage(newMessage);
+			databaseCommunicator.saveMessage(newMessage);
 			response.setStatus(HttpServletResponse.SC_CREATED);
 			return newMessage;   
 			
@@ -62,42 +68,92 @@ public class Controller {
 		}
 		
 		return true;
-		
-		
 	}
 
-	@RequestMapping(value="/messages", method=RequestMethod.PUT)
+	/**
+	 * Returns all messages and sets them as read
+	 * 	  
+	 * @return List<Message>
+	 */
+	@RequestMapping(value="/api/v1.0/messages/", method=RequestMethod.PUT)
 	public List<Message> getAllMessages() {
-		return dC.fetchAllMessages();      
+		return databaseCommunicator.fetchAllMessages();      
 	}
 
-	@RequestMapping(value="/messages/unread", method=RequestMethod.PUT)
+	/**
+	 * Returns all unread messages and sets them as read
+	 * 	  
+	 * @return List<Message>
+	 */
+	@RequestMapping(value="/api/v1.0/messages/unread/", method=RequestMethod.PUT)
 	public List<Message> getUnreadMessags() {
-		return dC.fetchUnread();      
+		return databaseCommunicator.fetchUnread();      
 
 	}
-
-	@RequestMapping(value="/messages/range/{start}/{end}/", method=RequestMethod.PUT)
+	
+	/**
+	 * Returns all messages in range, according to time order
+	 * 	
+	 * @param start
+	 * @param end
+	 *   
+	 * @return List<Message>
+	 */
+	@RequestMapping(value="/api/v1.0/messages/range/{start}/{end}/", method=RequestMethod.PUT)
 	public List<Message> getAllMessagesInRange(@PathVariable int start, @PathVariable int end) {
-		return dC.fetchMessagesInRange(start, end);      
+		return databaseCommunicator.fetchMessagesInRange(start, end);      
 	}
 
-	@RequestMapping(value="/messages/delete", method=RequestMethod.DELETE)
-	public String deleteAllMessages() {
-		return dC.deleteAllMessages();      
+	/**
+	 * Deletes all messages
+	 *   
+	 * @return void
+	 */
+	@RequestMapping(value="/api/v1.0/messages/delete/", method=RequestMethod.DELETE)
+	public void deleteAllMessages() {
+		databaseCommunicator.deleteAllMessages();      
 	}
-
-	@RequestMapping(value="/messages/delete/{id}/", method=RequestMethod.DELETE)
+	
+	/**
+	 * Deletes a specific message
+	 * 
+	 * @param id
+	 *   
+	 * @return void
+	 */
+	@RequestMapping(value="/api/v1.0/messages/delete/{id}/", method=RequestMethod.DELETE)
 	public void deleteMessage(@PathVariable int id, HttpServletResponse response) {
-		int result = dC.deleteMessage(id);
+		int result = databaseCommunicator.deleteMessage(id);
+		if(result == 0) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		}
+	}
+	
+	/**
+	 * Deletes a specific range of messages
+	 * 
+	 * @param id
+	 *   
+	 * @return void
+	 */
+	@RequestMapping(value="/api/v1.0/messages/delete/inrange/{start}/{end}/", method=RequestMethod.DELETE)
+	public void deleteMessagesInRange(@PathVariable int start, @PathVariable int end, HttpServletResponse response) {
+		int result = databaseCommunicator.deleteMessagesInRange(start, end);
 		if(result == 0) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		}
 	}
 
-	@RequestMapping(value="/messags/from/{from}/", method=RequestMethod.PUT)
+	/**
+	 * List all messages from a specific sender
+	 * 
+	 * @param from
+	 *   
+	 * @return List<Message>
+	 */
+	@RequestMapping(value="/api/v1.0/messages/from/{from}/", method=RequestMethod.PUT)
 	public List<Message> getAllMessagesFrom(@PathVariable String from) {
-		return dC.fetchMessagesBySender(from);     
+		return databaseCommunicator.fetchMessagesBySender(from);     
 	}
 
 
