@@ -1,4 +1,4 @@
-# RestMessageServer
+# JavaRestMessageServer
 This short document describes the installation procedure and available commands in text messaging app
 
 ## Third party libraries
