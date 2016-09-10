@@ -35,26 +35,30 @@ This short document describes the installation procedure and available commands 
 
 ## HTTP requests supported examples
 
-1) To create a new message from a sender to a recipient, max message length is 140 characters, sender and recipient max 40 chars
+1) To create a new message from a sender to a recipient
 
-```curl -X POST http://localhost:8080/message/create/ -d "message={value}" -d "from={value}" -d "to={value}"```
+```curl -X POST http://localhost:8080/api/v1.0/message/create/ -d "message={value}" -d "from={value}" -d "to={value}"```
 
 2) To see and mark all messages as read
 
-```curl -X PUT http://localhost:8080/messages/```
+```curl -X PUT http://localhost:8080/api/v1.0/messages/```
 
 3) To see and mark unread messages as read
 
-```curl -X PUT http://localhost:8080/messages/unread```
+```curl -X PUT http://localhost:8080/api/v1.0/messages/unread/```
 
 4) To fetch messages in specific range, in time order, where start and end and int indexes
 
-```curl -X PUT http://localhost:8080/messages/range/{start}/{end}/```
+```curl -X PUT http://localhost:8080/api/v1.0/messages/range/{start}/{end}/```
 
 5) To delete all messages
 
-```curl -X DELETE http://localhost:8080/messages/delete```
+```curl -X DELETE http://localhost:8080/api/v1.0/messages/delete/```
 
 6) To delete a specific messages, based on id, where id is an int
 
-```curl -X DELETE http://localhost:8080/messages/delete/{id}/```
+```curl -X DELETE http://localhost:8080/api/v1.0/messages/delete/{id}/```
+
+7) To delete a range of messages
+
+```curl -X DELETE http://localhost:8080/api/v1.0/messages/delete/inrange/{start}/{end}/```
